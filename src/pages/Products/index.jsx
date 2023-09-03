@@ -2,12 +2,12 @@ import React from 'react'
 import Card from '../../components/Card'
 import { Grid } from '@chakra-ui/react'
 import {  useQuery } from '@tanstack/react-query'
-
+import { fetchProductList } from '../../api';
 function Products() {
     const {isLoading, error, data }= useQuery({
-        queryKey: ['repoData'],
-        queryFn: () => 
-        fetch('http://localhost:4000/products').then((res) => res.json())
+        queryKey: ["products"],
+        queryFn: fetchProductList
+        
 
     })
 
@@ -19,10 +19,9 @@ function Products() {
     <div>
         
         <Grid templateColumns='repeat(3, 1fr)' gap={4}>
-        <Card/>
-        <Card/>
-        <Card/>
-        <Card/>
+        {
+            data.map((item, key) => <Card key={key} item={item}/>)
+        }
 </Grid>
         </div>
   )
