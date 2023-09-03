@@ -6,14 +6,30 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react'
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+
+const queryClient = new QueryClient();
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-  <ChakraProvider>
-    <App />
-  </ChakraProvider>
-  </BrowserRouter>
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+     
+   
+     <BrowserRouter>
+     <ChakraProvider>
+       <App />
+     </ChakraProvider>
+     </BrowserRouter>
+     </QueryClientProvider>
+
+  </React.StrictMode>
+  
 );
 
 // If you want to start measuring performance in your app, pass a function
