@@ -1,32 +1,43 @@
 import { Box, Image, Button } from "@chakra-ui/react";
+
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { useCart } from "../../contexts/CartContext";
 
-function Card({ product }) {
-  const { addToCart, items } = useCart();
+import React from "react";
 
-  const findCartItem = items.find((item) => item._id === product._id);
-  return (
-    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" p="3">
-      <Link to={`product/${product._id}`}>
-        <Image src={product.photos[0]} alt="product" loading="lazy" />
-        <Box p="6">
-          <Box d="flex" alignItems="baseline">
-            {moment(product.createdAt).format("DD/MM/YYYY")}
-          </Box>
-          <Box mt="1" fontWeight="semibold" as="h4" lineHeight="tigth">
-            {product.title}
-          </Box>
-          <Box>$ {product.price}</Box>
-        </Box>
-      </Link>
+import { useBasket } from "./../../context/BasketContext";
 
-      <Button colorScheme={findCartItem ? "pink" : "green"} variant="solid" onClick={() => addToCart(product, findCartItem )}>
-        {findCartItem ? "Remove from cart" : "Add to cart"}
-      </Button>
-    </Box>
-  );
+function Card({ item }) {
+	const { addToBasket, items } = useBasket();
+
+	const findBasketItem = items.find(
+		(basket_item) => basket_item._id === item._id
+	);
+
+	return (
+		<div>
+			<Box borderWidth="1px" borderRadius="lg" overflow="visible" p="3">
+				<Link to={`/product/${item._id}`}>
+					<Image src={item.photos[0]} alt="product" loading="lazy"></Image>
+					<Box p={"6"}>
+						<Box d="plex" alignItems="baseline">
+							{moment(item.createdAt).format("DD/MM/YYYY")}
+						</Box>
+						<Box mt={"1"} fontWeight={"semibold"} lineHeight={"tight"}>
+							{item.title}
+						</Box>
+						<Box>{item.price}</Box>
+					</Box>
+				</Link>
+				<Button
+					colorScheme={findBasketItem ? "pink" : "green"}
+					onClick={() => addToBasket(item, findBasketItem)}
+				>
+					{findBasketItem ? "Remove from basket" : "Add to basket"}
+				</Button>
+			</Box>
+		</div>
+	);
 }
 
 export default Card;

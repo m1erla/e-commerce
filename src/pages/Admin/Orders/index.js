@@ -1,66 +1,58 @@
+import React from "react";
+
 import { useQuery } from "@tanstack/react-query";
-import { fetchOrders } from "../../../api";
+
 import {
-  Text,
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
+	Table,
+	Thead,
+	Tbody,
+	Tr,
+	Th,
+	Td,
+	TableCaption,
+	Text,
 } from "@chakra-ui/react";
 
-function AdminOrders() {
-  const { isLoading, data, error } = useQuery(["admin:orders"], () =>
-    fetchOrders()
-  );
+import { fetchOrders } from "./../../../api";
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  return (
-    <div>
-      <Text fontSize="2xl" p={5}>
-        Orders
-      </Text>
-      <TableContainer>
-        <Table variant="simple">
-          <TableCaption>Imperial to metric conversion factors</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>User</Th>
-              <Th>Items</Th>
-              <Th>Address</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data.map((order) => (
-              <Tr key={order._id}>
-                <Td>{order.user.email}</Td>
-                <Td>{order.items.map((item) => item.title).join(", ")}</Td>
-                <Td>{order.address}</Td>
-              </Tr>
-            ))}
-          </Tbody>
-          <Tfoot>
-            <Tr>
-              <Th>To convert</Th>
-              <Th>into</Th>
-              <Th isNumeric>multiply by</Th>
-            </Tr>
-          </Tfoot>
-        </Table>
-      </TableContainer>
-    </div>
-  );
+function Orders() {
+	const { isLoading, isError, data, error } = useQuery(["admin:orders"], () =>
+		fetchOrders()
+	);
+	if (isLoading) {
+		return <div>Loading..</div>;
+	}
+	if (isError) {
+		console.log("error, ", error);
+		return <div>Error {error.message}</div>;
+	}
+	// console.log(data);
+	return (
+		<div>
+			<Text fontSize={"2xl"} p={5}>
+				Orders
+			</Text>
+			<Table variant={"simple"}>
+				<TableCaption>Lorem ipsum dolor sit amet.</TableCaption>
+				<Thead>
+					<Tr>
+						<Th>User</Th>
+						<Th>Address</Th>
+						<Th isNumeric>Items</Th>
+					</Tr>
+				</Thead>
+				<Tbody>
+					{data.map((item) => (
+						<Tr key={item._id}>
+							<Td>{item.user.email}</Td>
+							<Td>{item.adress}</Td>
+							<Td isNumeric>{item.items.length}</Td>
+						</Tr>
+					))}
+				</Tbody>
+			</Table>
+		</div>
+	);
 }
 
-export default AdminOrders;
+export default Orders;

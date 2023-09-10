@@ -1,54 +1,56 @@
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Routess from "./App.css";
+import { Routes, Route } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
-import Error404 from "./pages/Error404";
+
+import ProtectedRoute from "./pages/ProtectedRoute";
+import ProtectedAdmin from "./pages/Admin/ProtectedAdmin";
+
+import ErrorPage from "./pages/errorPage";
 import Products from "./pages/Products";
-import ProductDetail from "./pages/ProductDetail";
 import Signin from "./pages/Auth/Signin";
 import Signup from "./pages/Auth/Signup";
-import Cart from "./pages/Cart";
-import ProtectedRoute from "./pages/ProtectedRoute";
-import Profile from "./Profile";
-import Admin from "./pages/Admin";
+import Profile from "./pages/Profile";
 import AdminHome from "./pages/Admin/Home";
-import AdminOrders from "./pages/Admin/Orders";
+import Orders from "./pages/Admin/Orders";
 import AdminProducts from "./pages/Admin/Products";
-import AddProduct from "./pages/Admin/Products/AddProduct";
-import AdminProductDetail from "./pages/Admin/AdminProductDetail"
+import AdminProductsDetail from "./pages/Admin/ProductDetail";
+import Basket from "./pages/Basket";
+import ProductDetail from "./pages/ProductDetail";
+import NewProduct from "./pages/Admin/Products/new";
 
 function App() {
-  return (
-    <Router>
-      <div>
-        <Navbar />
-      </div>
-
-      <div className="content">
-        <Routes>
-          <Route path="/" element={<Products />} />
-          <Route path="/product/:product_id" element={<ProductDetail />} />
-          <Route path="/signin" element={<Signin />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/profile" element={<Profile />} />
-          </Route>
-          <Route element={<ProtectedRoute admin={true} />}>
-          <Route path="/admin" element={<Admin />} />
-            <Route path="/admin/home" element={<AdminHome />} />
-            <Route path="/admin/orders" element={<AdminOrders />} />
-            <Route path="/admin/products" element={<AdminProducts />} />
-            <Route path="/admin/products/add" element={<AddProduct />} />
-            <Route
-              path="/admin/products/:product_id"
-              element={<AdminProductDetail />}
-            />
-          </Route>
-          <Route path="*" element={<Error404 />} />
-        </Routes>
-      </div>
-    </Router>
-  );
+	return (
+		<div className="App">
+			<Navbar />
+			<div className={Routess}>
+				<Routes>
+					<Route index path="/" element={<Products />} />
+					<Route path="/product/:product_id" element={<ProductDetail />} />
+					<Route path="/signin" element={<Signin />} />
+					<Route path="/signup" element={<Signup />} />
+					Basket
+					<Route path="/basket" element={<Basket />} />
+					{/* react-router-dom v6 */}
+					<Route element={<ProtectedRoute />}>
+						<Route path="/profile" element={<Profile />} />
+					</Route>
+					<Route element={<ProtectedAdmin />}>
+						{/* https://www.robinwieruch.de/react-router-nested-routes/ */}
+						<Route index path="/admin" element={<AdminHome />} />
+						<Route path="/admin/orders" element={<Orders />} />
+						<Route path="/admin/products" element={<AdminProducts />} />
+						<Route
+							path="/admin/products/:product_id"
+							element={<AdminProductsDetail />}
+						/>
+						<Route path="/admin/products/new" element={<NewProduct />} />
+					</Route>
+					<Route path="*" element={<ErrorPage />} />
+				</Routes>
+			</div>
+		</div>
+	);
 }
 
 export default App;

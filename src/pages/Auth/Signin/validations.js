@@ -1,8 +1,14 @@
-import { object, string } from "yup";
+import * as yup from "yup";
 
-const validations = object({
-  email: string().email("Should be valid email...").required("Required!"),
-  password: string().min(5, "Should be min length 5 char").required(),
+const validations = yup.object().shape({
+	email: yup
+		.string()
+		.email("Geçerli bir email girim.")
+		.required("Zorunlu alan"),
+	password: yup
+		.string()
+		.min(5, "Parolanız en az 5 karakter olmalıdır")
+		.required(),
 });
 
 export default validations;
