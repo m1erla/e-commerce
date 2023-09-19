@@ -49,7 +49,7 @@ function AdminProducts() {
 				),
 			},
 		];
-	}, []);
+	}, [deleteMutation]);
 	if (isLoading) {
 		return <div>Loading..</div>;
 	}
